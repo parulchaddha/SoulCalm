@@ -1,8 +1,5 @@
 import React from 'react';
-import firebase from 'firebase/compat/app';
-import "firebase/auth"
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from "firebase/app";
 import { useEffect, useState } from "react";
 import {MDBContainer, MDBCol, MDBRow, MDBBtn, MDBIcon, MDBInput, MDBCheckbox } from 'mdb-react-ui-kit';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -15,31 +12,6 @@ library.add(fab);
 
 
 function Login() {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      console.log(user);
-    });
-  },[]);
-
-  const login = async () => {
-    try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log(user);
-      navigate('/')
-    } catch (error) {
-      console.log(error.message);
-      setError(true)
-      setEmail("");
-      setPassword('');
-    }
-  };
-
   return (
     <MDBContainer fluid className="p-3 my-5 h-custom">
 
