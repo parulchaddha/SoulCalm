@@ -68,7 +68,7 @@ function Header() {
             <Nav.Link style={navbarStyles} onMouseEnter={handleHover}
         onMouseLeave={handleLeave} as={Link} to="#">Get Help</Nav.Link>
             <Nav.Link style={navbarStyles} onMouseEnter={handleHover}
-        onMouseLeave={handleLeave} as={Link} to="#">My Goals</Nav.Link>
+        onMouseLeave={handleLeave} as={Link} to="/Mygoals">My Goals</Nav.Link>
             <NavDropdown style={navbarStyles} onMouseEnter={handleHover}
         onMouseLeave={handleLeave} title="Explore More" id="collasible-nav-dropdown">
               <NavDropdown.Item style={navbarStyles} onMouseEnter={handleHover}
