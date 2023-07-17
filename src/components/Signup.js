@@ -1,4 +1,4 @@
-import React from 'react';
+import React , { useState } from 'react';
 import {
   MDBBtn,
   MDBContainer,
@@ -17,8 +17,52 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import 'firebase/compat/auth';
+import 'firebase/compat/analytics';
 
 function Signup() {
+  const firebaseConfig = {
+    apiKey: "AIzaSyBuZvgxF3wISleUIQLO2QOcmo4SSqZYsq4",
+    authDomain: "soulcalm-be33a.firebaseapp.com",
+    projectId: "soulcalm-be33a",
+    storageBucket: "soulcalm-be33a.appspot.com",
+    messagingSenderId: "214845928876",
+    appId: "1:214845928876:web:057d1109125891ac79b609",
+    measurementId: "G-Z8KKRL7TGE"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+
+  const handleSignup = () => {
+    setError(null); // Reset any previous error messages
+
+    // Validate the input fields
+    if (!name || !email || !password) {
+      setError('Please fill in all fields.');
+      return;
+    }
+
+    // Implement Firebase signup function
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signup successful, you can redirect the user to the desired page or perform any other action
+        console.log('Signup successful:', userCredential.user);
+      })
+      .catch((error) => {
+        // Handle signup error and set the error state
+        setError(error.message);
+      });
+  };
+
   return (
     <MDBContainer fluid>
 
@@ -31,29 +75,23 @@ function Signup() {
 
               <div className="d-flex flex-row align-items-center mb-2 " >
               <FontAwesomeIcon icon={faUser} style={{paddingleft:'250px'}}/>
-                <MDBInput label='Your Name' id='form1' type='text' className='w-100'/>
+                <MDBInput label='Your Name' id='form1' type='text' className='w-100'  value={name}
+                onChange={(e) => setName(e.target.value)}/>
               </div>
 
               <div className="d-flex flex-row align-items-center mb-4">
                 <FontAwesomeIcon icon={faEnvelope} />
-                <MDBInput label='Your Email' id='form2' type='email' className='w-100'/>
+                <MDBInput label='Your Email' id='form2' type='email' className='w-100' value={email}
+                onChange={(e) => setEmail(e.target.value)}/>
               </div>
 
               <div className="d-flex flex-row align-items-center mb-4">
               <FontAwesomeIcon icon={faLock} /> 
-                <MDBInput label='Password' id='form3' type='password' className='w-100'/>
+                <MDBInput label='Password' id='form3' type='password' className='w-100' value={password}
+                onChange={(e) => setPassword(e.target.value)}/>
               </div>
 
-              {/* <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="key me-3" size='lg'/>
-                <MDBInput label='Repeat your password' id='form4' type='password'/>
-              </div> */}
-
-              {/* <div className='mb-4'>
-                <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Subscribe to our newsletter' />
-              </div> */}
-
-              <MDBBtn className='mb-4 bg-success' size='lg'>Register</MDBBtn>
+              <MDBBtn className='mb-4 bg-success' size='lg' onClick={handleSignup}>Register</MDBBtn>
 
             </MDBCol>
 

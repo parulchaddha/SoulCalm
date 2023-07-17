@@ -1,17 +1,49 @@
-import React from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useEffect, useState } from "react";
+import React , { useState } from 'react';
 import {MDBContainer, MDBCol, MDBRow, MDBBtn, MDBIcon, MDBInput, MDBCheckbox } from 'mdb-react-ui-kit';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import firebase from 'firebase/compat/app';
+import 'firebase/auth';
 library.add(fab);
 
 
 
 function Login() {
+  const firebaseConfig = {
+    apiKey: "AIzaSyBuZvgxF3wISleUIQLO2QOcmo4SSqZYsq4",
+    authDomain: "soulcalm-be33a.firebaseapp.com",
+    projectId: "soulcalm-be33a",
+    storageBucket: "soulcalm-be33a.appspot.com",
+    messagingSenderId: "214845928876",
+    appId: "1:214845928876:web:057d1109125891ac79b609",
+    measurementId: "G-Z8KKRL7TGE"
+  };
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    // Implement Firebase login function
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Login successful, you can redirect the user to the desired page or perform any other action
+        console.log('Login successful:', userCredential.user);
+      })
+      .catch((error) => {
+        // Handle login error
+        console.error('Login error:', error);
+      });
+  };
+
+
   return (
     <MDBContainer fluid className="p-3 my-5 h-custom">
 
@@ -45,8 +77,10 @@ function Login() {
             <p className="text-center fw-bold mx-3 mb-0" style={{paddingLeft:'350px'}}>Or</p>
           </div>
 
-          <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg"/>
-          <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg"/>
+          <MDBInput wrapperClass='mb-4' label='Email address' id='formControlLg' type='email' size="lg" value={email}
+        onChange={(e) => setEmail(e.target.value)}/>
+          <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg" value={password}
+        onChange={(e) => setPassword(e.target.value)}/>
 
           <div className="d-flex justify-content-between mb-4">
             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
@@ -54,7 +88,7 @@ function Login() {
           </div>
 
           <div className='text-center text-md-start mt-4 pt-2'>
-            <MDBBtn className="mb-0 px-5 bg-success" size='lg'>Login</MDBBtn>
+            <MDBBtn className="mb-0 px-5 bg-success" size='lg' onClick={handleLogin}>Login</MDBBtn>
             <br/>
             <br/>
            {/* <p className="small fw-bold mt-2 pt-1 mb-2">Don't have an account? <a href="#!" className="link-danger">Register</a></p> */}
