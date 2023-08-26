@@ -15,6 +15,7 @@ function Carouselcp() {
           height:'70vh',
           objectFit:"cover",
         };
+        
   return (
     <Carousel style={carouselStyle} className="half-screen-carousel">
       <Carousel.Item interval={1000}>

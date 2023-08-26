@@ -244,66 +244,83 @@
 
 // export default Mygoals;
 
-
 import { useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
 `;
 
-const Button = styled.button`
-  display: inline-block;
-  flex: 1;
-  border: none;
-  background-color: teal;
-  color: white;
-  height: 30px;
-  width: 50px;
-  border-radius: 2px;
-  cursor: pointer;
+const ContentContainer = styled.div`
+  text-align: center;
+`;
+
+const Title = styled.h1`
+  margin-bottom: 10px;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center align the input box */
+  gap: 10px;
+  margin-bottom: 20px;
 `;
 
 const Text = styled.input`
   border: 2px solid #000;
-  width: 200px;
   padding: 5px;
   border-radius: 2px;
-  margin: 5px;
+  width: 200px;
 `;
 
-const TaskCount = styled.span`
-  margin: 10px;
+const Button = styled.button`
+  border: none;
+  background-color: teal;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s; /* Add a smooth transition effect */
+  
+  &:hover {
+    transform: scale(1.05); /* Increase size slightly on hover */
+  }
+`;
+
+const TaskCount = styled.div`
+  margin-top: 20px;
 `;
 
 const TaskRow = styled.div`
   display: flex;
-  width: 100%;
   flex-wrap: wrap;
 `;
 
 const TaskCard = styled.div`
-  width: 100px; /* Fixed width for square shape */
-  height: 100px; /* Fixed height for square shape */
+  width: 100px;
+  height: 100px;
   border: 1px solid #ccc;
   padding: 10px;
   margin: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center; /* Center the text in the card */
+  text-align: center;
   background-color: ${(props) => props.color};
-`;
-
-const TaskDescription = styled.p`
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  text-decoration: ${(props) => (props.complete ? "line-through" : "none")};
   cursor: pointer;
 `;
-
+const BoxContainer = styled.div`
+  border: 2px solid #ccc;
+  width: 490px; /* Adjusted width for four boxes in a row */
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+`;
 const Mygoals = () => {
   const [input, setInput] = useState("");
   const [completedTaskCount, setCompletedTaskCount] = useState(0);
@@ -378,18 +395,22 @@ const Mygoals = () => {
 
   return (
     <Container>
-      <div>
-        <h2>Todo List</h2>
-        <Text value={input} onInput={(e) => setInput(e.target.value)} />
-        <Button onClick={handleClick}>Add</Button>
-        <TaskCount>
-          <b>Pending Tasks</b> {todoList.length - completedTaskCount}
-        </TaskCount>
-        <TaskCount>
-          <b>Completed Tasks</b> {completedTaskCount}
-        </TaskCount>
-        {renderTaskRows()}
-      </div>
+      <BoxContainer>
+        <ContentContainer>
+          <Title>Todo List</Title>
+          <InputContainer>
+            <Text value={input} onInput={(e) => setInput(e.target.value)} />
+            <Button onClick={handleClick}>Add</Button>
+          </InputContainer>
+          <TaskCount>
+            <b>Pending Tasks:</b> {todoList.length - completedTaskCount}
+          </TaskCount>
+          <TaskCount>
+            <b>Completed Tasks:</b> {completedTaskCount}
+          </TaskCount>
+          {renderTaskRows()}
+        </ContentContainer>
+      </BoxContainer>
     </Container>
   );
 };
